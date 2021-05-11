@@ -7,12 +7,18 @@ use App\Models\Category;
 use App\Models\Product;
 use Categories;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+
+
+  
+
+    
     public function index()
     {
-        $products=Product::all();
+        $products=Product::where('user_id',Auth::user()->id)->get();
         return view('products.index',['products'=>$products]);
     }
 
@@ -35,6 +41,7 @@ class ProductController extends Controller
             $path=$req->photo->store('product_images');
         }
         $product->image=$path;
+        $product->user_id=Auth::user()->id;
         $product->save();
         return redirect('products');
     }

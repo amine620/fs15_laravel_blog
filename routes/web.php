@@ -92,19 +92,25 @@ Route::get('/details/{id}',function($id){
 
 // products routes
 
-Route::get('products',[ProductController::class,'index'])->name('products');
+Route::group(['middleware'=>'auth'],function(){
 
-Route::get('add-new',[ProductController::class,'create'])->name('add-new');
+  
+  // Route::get('products',[ProductController::class,'index'])->name('products');
 
-Route::post('store_product',[ProductController::class,'store'])->name('store_product');
+  Route::get('products','ProductController@index')->name('products');
 
-Route::delete('delete_product/{id}',[ProductController::class,'destroy'])->name('delete_product');
-
-
-Route::get('show_product/{id}',[ProductController::class,'show'])->name('show_product');
-
-
-Route::put('update_product/{id}',[ProductController::class,'update'])->name('update_product');
+  Route::get('add-new',[ProductController::class,'create'])->name('add-new');
+  
+  Route::post('store_product',[ProductController::class,'store'])->name('store_product');
+  
+  Route::delete('delete_product/{id}',[ProductController::class,'destroy'])->name('delete_product');
+  
+  
+  Route::get('show_product/{id}',[ProductController::class,'show'])->name('show_product');
+  
+  
+  Route::put('update_product/{id}',[ProductController::class,'update'])->name('update_product');
+});
 
 Auth::routes();
 
